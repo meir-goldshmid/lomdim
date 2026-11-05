@@ -115,5 +115,8 @@ route();
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   navigator.serviceWorker.register('sw.js');
-  navigator.serviceWorker.ready.then(r => r.active?.postMessage({ cacheAudio: Object.values(getState().audio || {}) }));
+  // On a first visit the request can be lost while the worker starts, so ask again once it takes control.
+  const askAudio = () => navigator.serviceWorker.ready.then(r => r.active?.postMessage({ cacheAudio: Object.values(getState().audio || {}) }));
+  askAudio();
+  navigator.serviceWorker.addEventListener('controllerchange', askAudio);
 }
