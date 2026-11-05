@@ -1,6 +1,6 @@
 // App shell: hash router, profile picker, kid home, shop.
 import { app, esc, topBar, toast, sfx, confetti } from './ui.js';
-import { profiles, active, setActive, save, dailyRounds, parseSetup, applySetup } from './store.js';
+import { profiles, active, setActive, save, dailyRounds, parseSetup, applySetup, getState } from './store.js';
 import { mathHome, mathTopic } from './modules/math.js';
 import { vocabHome, packHome } from './modules/vocab.js';
 import { speechHome, speechRoute } from './modules/speech.js';
@@ -113,4 +113,7 @@ addEventListener('click', e => {
 });
 route();
 
-if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js');
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  navigator.serviceWorker.register('sw.js');
+  navigator.serviceWorker.ready.then(r => r.active?.postMessage({ cacheAudio: Object.values(getState().audio || {}) }));
+}
