@@ -134,7 +134,7 @@ function kids(el, openId) {
       <div class="row"><label class="grow">גיל<input class="f" name="age" type="number" value="${p.age}"></label>
       <label class="grow">אווטר<input class="f" name="avatar" value="${p.avatar}"></label><label class="grow">צבע<input class="f" name="color" type="color" value="${p.color}"></label></div>
       <label>יעד יומי (סבבים)<input class="f" name="goal" type="number" min="1" max="20" value="${p.goal}"></label>
-      <b>מקצועות</b><div>${Object.entries(SUBJECTS).map(([k, v]) => `<label class="chk"><input type="checkbox" name="subj" value="${k}" ${p.subjects.includes(k) ? 'checked' : ''}>${v}</label>`).join('')}</div>
+      <b>מקצועות</b> <span class="muted">(אם לא מסמנים כלום – הכל)</span><div>${Object.entries(SUBJECTS).map(([k, v]) => `<label class="chk"><input type="checkbox" name="subj" value="${k}" ${p.subjects.includes(k) ? 'checked' : ''}>${v}</label>`).join('')}</div>
       <b>נושאי מתמטיקה</b> <span class="muted">(אם לא מסמנים כלום – הכל)</span><div>${TOPICS.map(t => `<label class="chk"><input type="checkbox" name="mt" value="${t.key}" ${p.mathTopics.includes(t.key) ? 'checked' : ''}>${t.em} ${t.name}</label>`).join('')}</div>
       <b>חבילות אנגלית</b><div>${EN.map(k => `<label class="chk"><input type="checkbox" name="ep" value="${k.id}" ${p.englishPacks.includes(k.id) ? 'checked' : ''}>${k.em} ${k.name}</label>`).join('')}</div>
       <b>דיבור – אילו צלילים לתרגל?</b> <span class="muted">(אם לא מסמנים כלום – הכל)</span><div>${Object.keys(SOUNDS).map(s => `<label class="chk"><input type="checkbox" name="snd" value="${s}" ${p.speech.sounds?.includes(s) ? 'checked' : ''}>${SOUNDS[s].em} ${s}</label>`).join('')}</div>

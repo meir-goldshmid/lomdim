@@ -49,7 +49,7 @@ function home() {
     <div class="card"><div class="row"><b>🎯 יעד היום</b><span class="grow"></span><b>${Math.min(today, goal)}/${goal}</b></div>
       <div class="bar" style="margin-top:8px"><i style="width:${Math.min(100, today / goal * 100)}%"></i></div>
       ${today >= goal ? '<p style="margin:8px 0 0">🏆 השלמת את היעד היום! אלוף/ה!</p>' : ''}</div>
-    <div class="grid">${p.subjects.map(s => `<a class="tile" href="#/${s}"><span class="em">${SUBJ[s].em}</span>${SUBJ[s].name}<small>${SUBJ[s].sub}</small></a>`).join('')}
+    <div class="grid">${(p.subjects.length ? p.subjects : Object.keys(SUBJ)).map(s => `<a class="tile" href="#/${s}"><span class="em">${SUBJ[s].em}</span>${SUBJ[s].name}<small>${SUBJ[s].sub}</small></a>`).join('')}
       <a class="tile" href="#/shop"><span class="em">🛍️</span>חנות<small>קונים פרסים במטבעות</small></a></div>`;
 }
 
