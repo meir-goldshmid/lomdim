@@ -1,6 +1,6 @@
 // Parent area (PIN protected): progress, custom content lists, kid settings, backup.
 import { app, esc, topBar, toast, $$ } from '../ui.js';
-import { getState, profiles, active, save, addProfile, removeProfile, exportJSON, importJSON, uid } from '../store.js';
+import { getState, profiles, active, save, addProfile, removeProfile, exportJSON, importJSON, uid, defaultsForAge } from '../store.js';
 import { TOPICS } from './math.js';
 import { PACKS as EN } from '../content/english.js';
 import { SOUNDS } from './speech.js';
@@ -152,7 +152,25 @@ function kids(el, openId) {
     save(); toast('נשמר ✔');
   });
   $$('[data-remove]', el).forEach(b => b.onclick = () => { const id = b.closest('[data-id]').dataset.id; if (confirm('למחוק את הפרופיל וכל ההתקדמות?')) { removeProfile(id); kids(el); } });
-  el.querySelector('#addkid').onclick = () => { const n = addProfile({ name: 'ילד/ה חדש/ה', avatar: '🐣', subjects: ['math'] }); kids(el, n.id); };
+  el.querySelector('#addkid').onclick = e => {
+    const form = document.createElement('div');
+    form.className = 'card';
+    form.innerHTML = `<b>ילד/ה חדש/ה</b>
+      <label>שם<input class="f" id="newname" maxlength="30"></label>
+      <label>גיל<input class="f" id="newage" type="number" inputmode="numeric" min="1" max="120"></label>
+      <p class="muted" style="margin:0 0 10px">לפי הגיל נבחר מקצועות ונושאים מתאימים. אפשר לשנות הכל אחר כך.</p>
+      <button class="btn ok block" id="newsave">הוספה</button>`;
+    e.currentTarget.replaceWith(form);
+    form.querySelector('#newname').focus();
+    form.querySelector('#newsave').onclick = () => {
+      const name = form.querySelector('#newname').value.trim(), age = Math.round(+form.querySelector('#newage').value);
+      if (!name) return toast('מה השם?');
+      if (!(age >= 1 && age <= 120)) return toast('בן/בת כמה?');
+      const n = addProfile({ name, age, avatar: '🐣', ...defaultsForAge(age) });
+      kids(el, n.id);
+      toast(`נוסף/ה: ${name} 🎉`);
+    };
+  };
 }
 
 function backup(el) {

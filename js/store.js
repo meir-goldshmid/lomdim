@@ -23,6 +23,15 @@ export function newProfile(p) {
 
 const DEFAULT = () => ({ version: 1, pin: '1234', activeId: null, profiles: [], audio: {} });
 
+// Starting point for a new child. Parents can change all of it in the kid's settings. Gemara is never assumed.
+export function defaultsForAge(age) {
+  if (age < 6) return { subjects: ['speech'], mathTopics: [], englishPacks: [] };
+  if (age < 9) return { subjects: ['math', 'english'], mathTopics: ['arith', 'pizza'], englishPacks: ['abc', 'phonics', 'words1'] };
+  if (age < 12) return { subjects: ['math', 'english'], mathTopics: ['arith', 'pizza', 'fractions', 'decimals', 'percent', 'order'], englishPacks: ['phonics', 'words1', 'grammar'] };
+  if (age < 14) return { subjects: ['math', 'english'], mathTopics: ['fractions', 'pizza', 'decimals', 'percent', 'negatives', 'order', 'equations', 'geometry', 'powers'], englishPacks: ['words1', 'words2', 'grammar'] };
+  return { subjects: ['math', 'english'], mathTopics: ['equations', 'graphs', 'algebra', 'quadratic', 'systems', 'powers', 'negatives', 'order', 'percent', 'geometry', 'fractions'], englishPacks: ['words2', 'grammar'] };
+}
+
 // Private family setup: the family is defined in the URL fragment (#setup=...), which browsers never send to the server.
 // A link can be crafted by anyone, so every field is validated before it reaches the app.
 const clean = (v, max = 40) => String(v ?? '').replace(/[<>&"'`]/g, '').slice(0, max);
